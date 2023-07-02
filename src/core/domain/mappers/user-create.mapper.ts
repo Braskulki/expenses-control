@@ -8,6 +8,7 @@ export class UserCreateMapper extends Mapper<UserCreateDto, UserEntity> {
 
     user.name = data.name;
     user.email = data.email;
+    // TODO: encrypt password
     user.password = data.password;
 
     return user;

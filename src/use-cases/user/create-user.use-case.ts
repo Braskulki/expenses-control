@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UseCase } from 'src/core/base/use-case';
-import { UserRepository } from 'src/core/repositories/user.repository';
 import { UserCreateMapper } from 'src/core/domain/mappers/user-create.mapper';
 import { UserCreatedMapper } from 'src/core/domain/mappers/user-created.mapper';
+import { UserRepository } from 'src/data/repositories/user';
 import { UserCreateDto } from 'src/shared/dtos/user-create.dto';
 import { UserCreatedDto } from 'src/shared/dtos/user-created.dto';
 
@@ -18,11 +18,13 @@ export class CreateUserUseCase implements UseCase<UserCreatedDto> {
     this.userCreatedMapper = new UserCreatedMapper();
   }
 
-  public execute(user: UserCreateDto): Observable<UserCreatedDto> {
+  public async execute(
+    user: UserCreateDto,
+  ): Promise<Observable<UserCreatedDto>> {
     const entity = this.userCreateMapper.mapFrom(user);
 
-    return this.repository
-      .create(entity)
-      .pipe(map(this.userCreatedMapper.mapTo));
+    const userCreated = await this.repository.create(entity);
+
+    return userCreated.pipe(map(this.userCreatedMapper.mapTo));
   }
 }

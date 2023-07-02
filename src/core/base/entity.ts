@@ -1,3 +1,5 @@
 export class Entity {
-  id?: number;
+  id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

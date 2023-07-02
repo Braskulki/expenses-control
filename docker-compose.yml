@@ -1,20 +1,22 @@
 services:
-  api:
-    build:
-      dockerfile: Dockerfile
-      context: .
-      # Only will build development stage from our dockerfile
-      target: development
-    env_file:
-        - .env
-    volumes:
-      - .:/usr/src/app
-    # Run in dev Mode: npm run start:dev
-    command: npm run start:dev
-    ports:
-      - 3000:3000
-    depends_on:
-      - postgres
+  # api:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: .
+  #     # Only will build development stage from our dockerfile
+  #     target: development
+  #   env_file:
+  #       - .env
+  #   environment:
+  #       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+  #   volumes:
+  #     - .:/usr/src/app
+  #   # Run in dev Mode: npm run start:dev
+  #   command: npm run start:dev
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - postgres
   
   postgres:
     image: postgres
