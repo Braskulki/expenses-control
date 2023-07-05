@@ -25,7 +25,16 @@ module.exports = {
       "error",
       {
         "endOfLine": "auto"
+      },
+    ],
+    'max-len': [
+      2,
+      120,
+      2,
+      {
+        'ignoreStrings': true,
+        'ignoreTemplateLiterals': true
       }
-    ]
+    ],
   },
 };

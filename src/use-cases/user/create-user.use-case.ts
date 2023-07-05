@@ -6,6 +6,7 @@ import { UserRepository } from 'src/data/repositories/user';
 import { UserCreateDto } from 'src/shared/dtos/user-create.dto';
 import { UserCreatedDto } from 'src/shared/dtos/user-created.dto';
 import { EntityAlreadyExistsException } from 'src/shared/errors/entity-already-exists';
+import { hashPass } from 'src/shared/methods/crypto';
 
 @Injectable()
 export class CreateUserUseCase implements UseCase<UserCreatedDto> {
@@ -25,6 +26,8 @@ export class CreateUserUseCase implements UseCase<UserCreatedDto> {
     if (userExists) {
       throw new EntityAlreadyExistsException('User');
     }
+
+    entity.password = await hashPass(entity.password);
 
     const userCreated = await this.repository.create(entity);
 
