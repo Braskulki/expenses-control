@@ -1,24 +1,14 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { Body, Controller, Post } from '@nestjs/common';
 import { UserCreateDto } from 'src/shared/dtos/user-create.dto';
 import { UserCreatedDto } from 'src/shared/dtos/user-created.dto';
 import { CreateUserUseCase } from 'src/use-cases/user/create-user.use-case';
-import { GetAllUsersUseCase } from 'src/use-cases/user/get-all-users.use-case';
 
 @Controller('/users')
 export class UsersControllers {
-  constructor(
-    private createUserUserCase: CreateUserUseCase,
-    private getAllUsersUserCase: GetAllUsersUseCase,
-  ) {}
+  constructor(private createUserUserCase: CreateUserUseCase) {}
 
   @Post()
-  public create(@Body() user: UserCreateDto): Observable<UserCreatedDto> {
+  public create(@Body() user: UserCreateDto): Promise<UserCreatedDto> {
     return this.createUserUserCase.execute(user);
-  }
-
-  @Get()
-  public findAll(): Observable<UserCreatedDto[]> {
-    return this.getAllUsersUserCase.execute();
   }
 }

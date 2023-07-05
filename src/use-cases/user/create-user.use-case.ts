@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { UseCase } from 'src/core/base/use-case';
 import { UserCreateMapper } from 'src/core/domain/mappers/user-create.mapper';
 import { UserCreatedMapper } from 'src/core/domain/mappers/user-created.mapper';
 import { UserRepository } from 'src/data/repositories/user';
 import { UserCreateDto } from 'src/shared/dtos/user-create.dto';
 import { UserCreatedDto } from 'src/shared/dtos/user-created.dto';
+import { EntityAlreadyExistsException } from 'src/shared/errors/entity-already-exists';
 
 @Injectable()
 export class CreateUserUseCase implements UseCase<UserCreatedDto> {
@@ -18,13 +17,17 @@ export class CreateUserUseCase implements UseCase<UserCreatedDto> {
     this.userCreatedMapper = new UserCreatedMapper();
   }
 
-  public async execute(
-    user: UserCreateDto,
-  ): Promise<Observable<UserCreatedDto>> {
+  public async execute(user: UserCreateDto): Promise<UserCreatedDto> {
     const entity = this.userCreateMapper.mapFrom(user);
+
+    const userExists = await this.repository.find({ email: user.email });
+
+    if (userExists) {
+      throw new EntityAlreadyExistsException('User');
+    }
 
     const userCreated = await this.repository.create(entity);
 
-    return userCreated.pipe(map(this.userCreatedMapper.mapTo));
+    return this.userCreatedMapper.mapTo(userCreated);
   }
 }
