@@ -5,7 +5,9 @@ import { CreateUserUseCase } from 'src/domain/use-cases/user/create-user.use-cas
 import { ListUsersUseCase } from 'src/domain/use-cases/user/list-users.use-case';
 import { UserEntity } from 'src/domain/entities/user.entity';
 import { UserFiltersDTO } from 'src/shared/dtos/user-filters';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('/users')
 export class UsersControllers {
   constructor(private createUserUserCase: CreateUserUseCase, private listUsersUseCase: ListUsersUseCase) {}
