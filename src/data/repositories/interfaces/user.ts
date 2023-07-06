@@ -1,6 +1,7 @@
-import { UserEntity } from 'src/core/domain/entities/user.entity';
+import { UserEntity } from 'src/domain/entities/user.entity';
 
 export interface IUserRepository {
   create(data: UserEntity): Promise<UserEntity>;
-  find(where: { email: string }): Promise<UserEntity | null>;
+  find(where: Partial<UserEntity>): Promise<UserEntity | null>;
+  findMany(where: Partial<UserEntity>): Promise<UserEntity[]>;
 }

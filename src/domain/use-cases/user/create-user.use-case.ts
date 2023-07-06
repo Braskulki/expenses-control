@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UseCase } from 'src/core/base/use-case';
-import { UserCreateMapper } from 'src/core/domain/mappers/user-create.mapper';
-import { UserCreatedMapper } from 'src/core/domain/mappers/user-created.mapper';
+import { UserCreateMapper } from 'src/domain/mappers/user-create.mapper';
+import { UserCreatedMapper } from 'src/domain/mappers/user-created.mapper';
 import { UserRepository } from 'src/data/repositories/user';
 import { UserCreateDto } from 'src/shared/dtos/user-create.dto';
 import { UserCreatedDto } from 'src/shared/dtos/user-created.dto';
